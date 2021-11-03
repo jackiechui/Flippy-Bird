@@ -110549,9 +110549,11 @@
               bottomObstacle.x -= 4;
               topObstacle.x -= 4;
               if (bottomObstacle.x > birdLeft - obstacleWidth + hitBoxOffset && bottomObstacle.x < birdLeft + birdWidth - hitBoxOffset && (birdTop + birdHeight >= bottomObstacle.y + hitBoxOffset || birdTop <= topObstacle.y + 330 - hitBoxOffset)) {
+                figma.ui.postMessage("fall");
                 die();
               }
               if (bottomObstacle.x < birdLeft && !addedScore) {
+                figma.ui.postMessage("point");
                 score++;
                 addedScore = true;
                 scoreText.characters = score.toString();
@@ -110647,6 +110649,7 @@
         };
         const updateTimerId = setInterval(update, 20);
         const jump = () => {
+          figma.ui.postMessage("flap");
           speed = -jumpAmount;
         };
         const firstJump = () => {
@@ -110674,6 +110677,7 @@
         scoreText.y = 76;
         scoreText.visible = false;
         const die = () => {
+          figma.ui.postMessage("die");
           clearInterval(moveObstacleTimerId0);
           clearInterval(moveObstacleTimerId1);
           clearInterval(moveObstacleTimerId2);
@@ -110708,10 +110712,10 @@
         const gameOver = () => {
           updateScores();
           clearInterval(updateTimerId);
-          figma.ui.close();
+          figma.ui.hide();
           setTimeout(() => {
             figma.closePlugin();
-          }, 250);
+          }, 500);
         };
         figma.on("close", () => {
           updateScores();
@@ -110737,6 +110741,7 @@
           width: 216,
           height: 108
         });
+        figma.ui.postMessage("swoosh");
         container.appendChild(widgetNode);
         widgetNode.x = 0;
         widgetNode.y = 0;

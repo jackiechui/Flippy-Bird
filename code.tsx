@@ -122,11 +122,13 @@ function Widget() {
               (birdTop + birdHeight >= bottomObstacle.y + hitBoxOffset ||
                 birdTop <= topObstacle.y + 330 - hitBoxOffset)
             ) {
+              figma.ui.postMessage('fall');
               die();
             }
 
             // + score
             if (bottomObstacle.x < birdLeft && !addedScore) {
+              figma.ui.postMessage('point');
               score++;
               addedScore = true;
               scoreText.characters = score.toString();
@@ -230,6 +232,7 @@ function Widget() {
 
       // jump
       const jump = () => {
+        figma.ui.postMessage('flap');
         speed = -jumpAmount;
       };
 
@@ -261,6 +264,7 @@ function Widget() {
       scoreText.visible = false;
 
       const die = () => {
+        figma.ui.postMessage('die');
         clearInterval(moveObstacleTimerId0);
         clearInterval(moveObstacleTimerId1);
         clearInterval(moveObstacleTimerId2);
@@ -297,10 +301,10 @@ function Widget() {
       const gameOver = () => {
         updateScores();
         clearInterval(updateTimerId);
-        figma.ui.close();
+        figma.ui.hide();
         setTimeout(() => {
           figma.closePlugin();
-        }, 250);
+        }, 500);
       };
 
       // clean up
@@ -328,6 +332,7 @@ function Widget() {
         width: 216,
         height: 108,
       });
+      figma.ui.postMessage('swoosh');
       container.appendChild(widgetNode);
       widgetNode.x = 0;
       widgetNode.y = 0;
