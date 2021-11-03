@@ -15,6 +15,8 @@ import medalBronze from './img/medalBronze.png';
 import medalSilver from './img/medalSilver.png';
 import medalGold from './img/medalGold.png';
 import medalPlatinum from './img/medalPlatinum.png';
+import speaker from './img/speaker.png';
+import mute from './img/mute.png';
 
 import {
   bgHash,
@@ -54,6 +56,7 @@ function Widget() {
     'iframeFocused',
     true
   );
+  const [soundOn, setSoundOn] = useSyncedState('soundOn', true);
 
   const playGame = () => {
     return new Promise(async (resolve) => {
@@ -122,13 +125,13 @@ function Widget() {
               (birdTop + birdHeight >= bottomObstacle.y + hitBoxOffset ||
                 birdTop <= topObstacle.y + 330 - hitBoxOffset)
             ) {
-              figma.ui.postMessage('fall');
+              if (soundOn) figma.ui.postMessage('fall');
               die();
             }
 
             // + score
             if (bottomObstacle.x < birdLeft && !addedScore) {
-              figma.ui.postMessage('point');
+              if (soundOn) figma.ui.postMessage('point');
               score++;
               addedScore = true;
               scoreText.characters = score.toString();
@@ -232,7 +235,7 @@ function Widget() {
 
       // jump
       const jump = () => {
-        figma.ui.postMessage('flap');
+        if (soundOn) figma.ui.postMessage('flap');
         speed = -jumpAmount;
       };
 
@@ -264,7 +267,7 @@ function Widget() {
       scoreText.visible = false;
 
       const die = () => {
-        figma.ui.postMessage('die');
+        if (soundOn) figma.ui.postMessage('die');
         clearInterval(moveObstacleTimerId0);
         clearInterval(moveObstacleTimerId1);
         clearInterval(moveObstacleTimerId2);
@@ -332,7 +335,7 @@ function Widget() {
         width: 216,
         height: 108,
       });
-      figma.ui.postMessage('swoosh');
+      if (soundOn) figma.ui.postMessage('swoosh');
       container.appendChild(widgetNode);
       widgetNode.x = 0;
       widgetNode.y = 0;
@@ -606,6 +609,26 @@ function Widget() {
               ))}
           </AutoLayout>
         </Frame>
+      )}
+      {(!gameStarted || isGameOver) && (
+        <Image
+          name="muteButton"
+          x={432}
+          y={594}
+          width={32}
+          height={32}
+          src={soundOn ? speaker : mute}
+          onClick={async () =>
+            new Promise((resolve) => {
+              setSoundOn(!soundOn);
+              if (!soundOn) figma.showUI(__html__, { visible: false });
+              figma.ui.postMessage('point');
+              setTimeout(() => {
+                figma.closePlugin();
+              }, 1200);
+            })
+          }
+        />
       )}
     </Frame>
   );

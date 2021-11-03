@@ -62,6 +62,12 @@
   // img/medalPlatinum.png
   var medalPlatinum_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAehFoBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAIXSURBVHgB7ZnPSwJBFMfHECRB6Nrf0KkgCDx37Oa1s/dUpFMkQYja3XNXbx07B0FQp/6GroFgCEExA28dx3k7783Murn5Adkfzrrf/e53Zt6uJRFIu9X64bQfjkYlEcCO2DDKgonp6GA4FEyWjuc6XjyHXY7OZzPBwXJHWI5vnMPo1YCzoY66qFSrS9uddlstMac332HTWelo4/hUrU9eHoUPcLyJ7ffAccxptNPFvvVUXOdljcO6Uy63MVdDIQn+2J2r5f5XJbUdJrLZv1zZN+7eekUtEWzLLkWcb65daKOT0gVZZkXC5jTH1RisCA7pbDFFYjrYxU9ajmUuOfjEqUzJrquzZYmZZbbDMeEMk0AimJrdu8Nv6/6Lt8W13zdOBIXzybOzjamL5DAmMg9yjYR+J6jxyE3w3vUoWf+8apGPy1QwJkrfn2xP6oJCZvWwVZTB2UFdfSQyHhARGQ9sBs28gNdFxSCXJw6Ix8P7k/p4ZXg6naplrVYTMZAiZAykINg2v6cAuoBMOx3HOSpl7ZlJzdU3vZ74S/QHA7X0qod9waZgfeLQ26RNHCudTmbGzE0ottrCVW9gOtY2SugCqcWRjSQS68iyKTQtBmZ2AVKGm6+L9fGRyBVUMDYu63UvBqXOdZ0Xo3hvL7udztL+WDMhYDqKZRcojsOA+QY+1HHMUeD/vIHHcDnuguuoSfEdNtn+E+rgFy81Av7sUxiAAAAAAElFTkSuQmCC";
 
+  // img/speaker.png
+  var speaker_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACLSURBVHgB7ZbBDYAgDEWrcRhH8MjoHB3BcQwHEtMApWLSSv47wj/0l9KWCABjFo047EconcfrjC197T6xkjFdGeDOs6Meh5LOPANb67LmXNJLuie+auCrKtec+6wBzRuOYp4BBIAAir9A2wFH8D0NpUzwzqbtjAnf05A7k6bdm1r5x0aUmXInBMCcG8LoVnCvKSFwAAAAAElFTkSuQmCC";
+
+  // img/mute.png
+  var mute_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACKSURBVHgB7ZbBDYAgDEWrcRhH8MjoHB3BcTw1MYQCrSQtTd9NKYf/KKQAQaDMxilO55Vq//NzZxCygzLHSFGZHBNTRjjYNkAln4ktA3+7HPdT9bV1mz0gPevydlDfX9Z4B7iMJEd8Gli/B6QvIJW0ZULdQHMe6JkY6fIetg0gvXnAvwHE5UwYBOq85EZZl4Z4X68AAAAASUVORK5CYII=";
+
   // images.js
   var bgArray = [
     137,
@@ -110494,6 +110500,7 @@
     const [leaderboardShown, setLeaderboardShown] = useSyncedState("leaderboardShown", false);
     const [scores, setScores] = useSyncedState("scores", []);
     const [iframeFocused, setIframeFocused] = useSyncedState("iframeFocused", true);
+    const [soundOn, setSoundOn] = useSyncedState("soundOn", true);
     const playGame = () => {
       return new Promise((resolve) => __async(this, null, function* () {
         let jumped2 = false;
@@ -110549,11 +110556,13 @@
               bottomObstacle.x -= 4;
               topObstacle.x -= 4;
               if (bottomObstacle.x > birdLeft - obstacleWidth + hitBoxOffset && bottomObstacle.x < birdLeft + birdWidth - hitBoxOffset && (birdTop + birdHeight >= bottomObstacle.y + hitBoxOffset || birdTop <= topObstacle.y + 330 - hitBoxOffset)) {
-                figma.ui.postMessage("fall");
+                if (soundOn)
+                  figma.ui.postMessage("fall");
                 die();
               }
               if (bottomObstacle.x < birdLeft && !addedScore) {
-                figma.ui.postMessage("point");
+                if (soundOn)
+                  figma.ui.postMessage("point");
                 score++;
                 addedScore = true;
                 scoreText.characters = score.toString();
@@ -110649,7 +110658,8 @@
         };
         const updateTimerId = setInterval(update, 20);
         const jump = () => {
-          figma.ui.postMessage("flap");
+          if (soundOn)
+            figma.ui.postMessage("flap");
           speed = -jumpAmount;
         };
         const firstJump = () => {
@@ -110677,7 +110687,8 @@
         scoreText.y = 76;
         scoreText.visible = false;
         const die = () => {
-          figma.ui.postMessage("die");
+          if (soundOn)
+            figma.ui.postMessage("die");
           clearInterval(moveObstacleTimerId0);
           clearInterval(moveObstacleTimerId1);
           clearInterval(moveObstacleTimerId2);
@@ -110741,7 +110752,8 @@
           width: 216,
           height: 108
         });
-        figma.ui.postMessage("swoosh");
+        if (soundOn)
+          figma.ui.postMessage("swoosh");
         container.appendChild(widgetNode);
         widgetNode.x = 0;
         widgetNode.y = 0;
@@ -110949,7 +110961,25 @@
       stroke: "#412937",
       strokeWidth: 3,
       strokeAlign: "OUTSIDE"
-    }, entry.score))))));
+    }, entry.score))))), (!gameStarted || isGameOver) && /* @__PURE__ */ figma.widget.h(Image, {
+      name: "muteButton",
+      x: 432,
+      y: 594,
+      width: 32,
+      height: 32,
+      src: soundOn ? speaker_default : mute_default,
+      onClick: () => __async(this, null, function* () {
+        return new Promise((resolve) => {
+          setSoundOn(!soundOn);
+          if (!soundOn)
+            figma.showUI(__html__, { visible: false });
+          figma.ui.postMessage("point");
+          setTimeout(() => {
+            figma.closePlugin();
+          }, 1200);
+        });
+      })
+    }));
   }
   widget.register(Widget);
 })();
