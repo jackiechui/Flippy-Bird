@@ -11,6 +11,10 @@ import getReadyText from './img/getReady.png';
 import scoreboard from './img/scoreboard.png';
 import newTag from './img/newTag.png';
 import leaderboard from './img/leaderboard.png';
+import medalBronze from './img/medalBronze.png';
+import medalSilver from './img/medalSilver.png';
+import medalGold from './img/medalGold.png';
+import medalPlatinum from './img/medalPlatinum.png';
 
 import {
   bgHash,
@@ -46,8 +50,12 @@ function Widget() {
     false
   );
   const [scores, setScores] = useSyncedState('scores', []);
+  const [iframeFocused, setIframeFocused] = useSyncedState(
+    'iframeFocused',
+    true
+  );
 
-  const initialization = () => {
+  const playGame = () => {
     return new Promise(async (resolve) => {
       let jumped = false;
       let isGameOver = false;
@@ -265,6 +273,10 @@ function Widget() {
             imageHash: flippyDeadHash,
           },
         ];
+        isGameOver = true;
+      };
+
+      const updateScores = () => {
         setCurrentScore(score);
         if (score > bestScore) {
           setBestScore(score);
@@ -272,10 +284,6 @@ function Widget() {
         } else {
           setIsNewBest(false);
         }
-        isGameOver = true;
-      };
-
-      const gameOver = () => {
         let oldScores = scores;
         const firstName = figma.currentUser.name.split(' ')[0];
         const lastNameInitial = figma.currentUser.name.split(' ')[1][0];
@@ -284,6 +292,10 @@ function Widget() {
           score: score,
         });
         setScores(oldScores);
+      };
+
+      const gameOver = () => {
+        updateScores();
         clearInterval(updateTimerId);
         figma.ui.close();
         setTimeout(() => {
@@ -293,13 +305,24 @@ function Widget() {
 
       // clean up
       figma.on('close', () => {
+        updateScores();
         scoreText.remove();
         setIsGameOver(true);
         setJumped(false);
       });
-      figma.ui.onmessage = (key) => {
-        if (!jumped) firstJump();
-        if (!isGameOver) jump();
+
+      // handle iframe event
+      figma.ui.onmessage = (message) => {
+        if (message === 'jump') {
+          if (!jumped) firstJump();
+          if (!isGameOver) jump();
+        }
+        if (message === 'blur') {
+          setIframeFocused(false);
+        }
+        if (message === 'focus') {
+          setIframeFocused(true);
+        }
       };
       figma.showUI(__html__, {
         width: 216,
@@ -317,7 +340,13 @@ function Widget() {
     widgetNode.x = oldContainer.x;
     widgetNode.y = oldContainer.y;
     oldContainer.remove();
-    // figma.closePlugin();
+  };
+
+  const medalImg = (score) => {
+    if (score >= 5 && score < 10) return medalBronze;
+    if (score >= 10 && score < 20) return medalSilver;
+    if (score >= 20 && score < 30) return medalGold;
+    if (score >= 30) return medalPlatinum;
   };
 
   return (
@@ -361,7 +390,7 @@ function Widget() {
             setLeaderboardShown(false);
             setGameStarted(true);
             setIsGameOver(false);
-            return initialization();
+            return playGame();
           }}
         />
       )}
@@ -391,11 +420,11 @@ function Widget() {
       {gameStarted && !jumped && !isGameOver && (
         <Text
           name={'hint'}
-          x={360}
+          x={240}
           y={466}
           fill={'#FAFAFA'}
           verticalAlignText={'center'}
-          horizontalAlignText={'right'}
+          horizontalAlignText={'center'}
           fontFamily={'Teko'}
           fontSize={32}
           fontWeight={700}
@@ -403,7 +432,7 @@ function Widget() {
           strokeWidth={3}
           strokeAlign={'OUTSIDE'}
         >
-          Press Space to flap
+          {iframeFocused ? 'Press Space to flap' : 'Click Flap button'}
         </Text>
       )}
       {isGameOver && (
@@ -425,6 +454,16 @@ function Widget() {
           height={185}
           fill={{ type: 'image', src: scoreboard }}
         >
+          {currentScore > 5 && (
+            <Image
+              name="medal"
+              x={41}
+              y={67}
+              width={70}
+              height={70}
+              src={medalImg(currentScore)}
+            />
+          )}
           <Text
             name={'currentScore'}
             x={323}

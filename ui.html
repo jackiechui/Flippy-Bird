@@ -1,6 +1,6 @@
 <style>
   body {
-    background-color: #DDD89D;
+    background-color: #72C5D0;
   }
   #jumpBtn {
     position: relative;
@@ -28,5 +28,11 @@
   jumpBtn.addEventListener('mousedown', (e) => {
     parent.postMessage({ pluginMessage: 'jump' }, '*');
   });
+  window.addEventListener('focus', () => {
+    parent.postMessage({ pluginMessage: 'focus' }, '*');
+});
+window.addEventListener('blur', () => {
+	parent.postMessage({ pluginMessage: 'blur' }, '*');
+});
   jumpBtn.focus();
 </script>

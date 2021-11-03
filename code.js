@@ -50,6 +50,18 @@
   // img/leaderboard.png
   var leaderboard_default = "data:image/png;base64,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";
 
+  // img/medalBronze.png
+  var medalBronze_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAehFoBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAITSURBVHgB7ZlBSsNAFIZHrSIi6MKVLQjSjau66MIDeABB8AzuPIs7z1AoeAAP0EUXduWmFITWlQUFEVFEkyEvTV5m+t6bTIyNflDSaZP0z59/Zl6mSyonnYvml2T/s8vhksrBslowakoIdvT0/EBJ6CiVOl7q+MI5TF4d6Wj/QYlo76aa3au7VJtyvDoOg7O5HaWwOG5zevEdzjgbODoYv+m3rca6cgGOxxjPFzluc7pC47Ahq0mnKLdtrpIQfYQ1cYA4SgT31o/XDtV01HOKWizYlF2OOJdcN95v1ZTYB3TAzAhZFk3NJqdFHcoDWcE5xlmvIi06xMXPvBxLO5rLBdY42XXu8R7AWRY77BPJMAnMBDOzu7O5Yvz88eVT/OOsO4d0sRy2iSyDUiORvBPceJQnOFlWCobSYgXbRKEaWLfHI8WhuGrNJAoxuB7pV0gYg+RMauuQhZeXSVE+KCfDYTwCx1sn+7M2k1jw5OlDb+vbq8oLlCimSNAFFOuw7wfWgBrUmXFN0d5Sv4ne8FVvnephVzg1c2rimJPtzCgRZgbnJi+mmYtTb5h0/NhTc1IgKTZwdnJzb/zKvi4BWY4GfNsJgLzVGo5Bt/+st9Vdl4jzEzlbP97TW86s5fSEEjlL9Z/qrV4eNTdSn4PTvsB9A4+7mOqvwGccF9YeOKPgKPB3VuBtUI5TSB3FVN9hzP8/oQTf6tYAv1VqnDsAAAAASUVORK5CYII=";
+
+  // img/medalSilver.png
+  var medalSilver_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAehFoBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAIJSURBVHgB7ZlPasJAFMbHNsfoVuxGeomCUFwKvYQu2q48gau2C71EwaUUhF6i2EXFba9RWmfghclzXua9ycSYwR/IRM2fL1++eTNJOqoiD+Pxn2T918WioypwoVpGpoRgR1/mcyWksL3U8fQc9jn6s9spCY4rInK8dQ6TZwPOVnXUx1W3W/j+OJmYlnK6/Q5jZ7Wjb8ulWb4fjVQIsD3GtT9wnHI6nSrhyqrtlM9tylUfvj7CGjhu+n3Tfm42petRImF74Hf/+drvKyRquWBXdjniQnJ9yVjHqk5GF2RZNDS7nOa6GosDwVXqbEyRlA7x5Kcsx76MY56mU9NKTMo42ZUKiQnOstjhmDzPZvkyt/PmgrmXhcqpfRW4B+fUaqxLVIdPgUYjYV8J7ijamGB7WimqEqpGKFF4Doy/l1HbbI0jSlcJqBQ6BhAFHQ+qQ9Y+vbRFxaCRDOt4aMeDRjpY+N5uTXvd66kY+ERxRYIuoFaHY9+wajLrnsmM1bEcjsX7em3aoPlwKJybUHudsmwfVAmdGZybqrhGLs58w6XjaHfNtkCfWO3sx2rl/C+PBJVl3dP1h9qBBCy0LAY4u0A6zyUgP9DeDoem5YxaIc8kwFlf/0nv6eXdYFD4HZyOBe4bVHaBdDKMqwaFdGTEGQVHHcd1kt47DscZi97LYaSOYtKpElzOb0I9/APkPBHKH+A5EgAAAABJRU5ErkJggg==";
+
+  // img/medalGold.png
+  var medalGold_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAehFoBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAIXSURBVHgB7Zm7TsNAEEUnUQpQKFGUBgoEEn9AECUKJa8voIfPgZ4vCI8SRImAjhIJkiI0UUSZiC6gNRrLnuxmZrx2gg1HivyQbV3f3N2ZbErgSet040tz/eHJUwk8KEPOqIAS6ujB8SNoaEEjdr/W8dw5zL4d52hvuA8a6tXL2PHFWSN2zDleHIfRWV9HOVyOu5zOv8PUWePo4H4Y7C9sVSEJeD/F9jx03OV0ceZhW1ajTnFuu1zl4MaIqHCgOE6E9Kv/6K3BXPs5UdRCwbbsSsQlyfVi/RUG7cnXoA6sjJhlVWm2Oa0ZUGkwJthnnk1TpEuHuvmZlGPtQEvyghVJdpOO+DSgWVY7nCaaaRIJBUuzu7I8bz3f6X6y10y6xwXVJXJYKmAazDQSUSM6wnjMTHB5/TrcH73siu/LVLBLVPR8eNxtguiZkBFWUYS3m2bwMZh4YETM7OGaSjNvL6Oi0mAmGTbxMI6v7tyGx1JCwbX3UbDtL6VjOidKKhJ1IZk6rHFOSgX7TOwpNo/q8Ju4uusH20T9cFJcJThWOCLXYIxs7cJYYE1maG58sZV2Sbm36Zjar+aoQE6scdaVf+e6BGYZ1wm4AeTbrdEYPJz3gm1x1yUwPyP4cRZLq6RqSfpcCjrLjZ/irV7ubddi521NjA90bNB5l1L8FXjquLb3oBlFR5G/swLvgnOcQ+sopfgOU/7/CWX4BkInDpO9UAbXAAAAAElFTkSuQmCC";
+
+  // img/medalPlatinum.png
+  var medalPlatinum_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAehFoBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAIXSURBVHgB7ZnPSwJBFMfHECRB6Nrf0KkgCDx37Oa1s/dUpFMkQYja3XNXbx07B0FQp/6GroFgCEExA28dx3k7783Murn5Adkfzrrf/e53Zt6uJRFIu9X64bQfjkYlEcCO2DDKgonp6GA4FEyWjuc6XjyHXY7OZzPBwXJHWI5vnMPo1YCzoY66qFSrS9uddlstMac332HTWelo4/hUrU9eHoUPcLyJ7ffAccxptNPFvvVUXOdljcO6Uy63MVdDIQn+2J2r5f5XJbUdJrLZv1zZN+7eekUtEWzLLkWcb65daKOT0gVZZkXC5jTH1RisCA7pbDFFYjrYxU9ajmUuOfjEqUzJrquzZYmZZbbDMeEMk0AimJrdu8Nv6/6Lt8W13zdOBIXzybOzjamL5DAmMg9yjYR+J6jxyE3w3vUoWf+8apGPy1QwJkrfn2xP6oJCZvWwVZTB2UFdfSQyHhARGQ9sBs28gNdFxSCXJw6Ix8P7k/p4ZXg6naplrVYTMZAiZAykINg2v6cAuoBMOx3HOSpl7ZlJzdU3vZ74S/QHA7X0qod9waZgfeLQ26RNHCudTmbGzE0ottrCVW9gOtY2SugCqcWRjSQS68iyKTQtBmZ2AVKGm6+L9fGRyBVUMDYu63UvBqXOdZ0Xo3hvL7udztL+WDMhYDqKZRcojsOA+QY+1HHMUeD/vIHHcDnuguuoSfEdNtn+E+rgFy81Av7sUxiAAAAAAElFTkSuQmCC";
+
   // images.js
   var bgArray = [
     137,
@@ -110481,7 +110493,8 @@
     const [isNewBest, setIsNewBest] = useSyncedState("isNewBest", true);
     const [leaderboardShown, setLeaderboardShown] = useSyncedState("leaderboardShown", false);
     const [scores, setScores] = useSyncedState("scores", []);
-    const initialization = () => {
+    const [iframeFocused, setIframeFocused] = useSyncedState("iframeFocused", true);
+    const playGame = () => {
       return new Promise((resolve) => __async(this, null, function* () {
         let jumped2 = false;
         let isGameOver2 = false;
@@ -110673,6 +110686,9 @@
               imageHash: flippyDeadHash
             }
           ];
+          isGameOver2 = true;
+        };
+        const updateScores = () => {
           setCurrentScore(score);
           if (score > bestScore) {
             setBestScore(score);
@@ -110680,9 +110696,6 @@
           } else {
             setIsNewBest(false);
           }
-          isGameOver2 = true;
-        };
-        const gameOver = () => {
           let oldScores = scores;
           const firstName = figma.currentUser.name.split(" ")[0];
           const lastNameInitial = figma.currentUser.name.split(" ")[1][0];
@@ -110691,6 +110704,9 @@
             score
           });
           setScores(oldScores);
+        };
+        const gameOver = () => {
+          updateScores();
           clearInterval(updateTimerId);
           figma.ui.close();
           setTimeout(() => {
@@ -110698,15 +110714,24 @@
           }, 250);
         };
         figma.on("close", () => {
+          updateScores();
           scoreText.remove();
           setIsGameOver(true);
           setJumped(false);
         });
-        figma.ui.onmessage = (key) => {
-          if (!jumped2)
-            firstJump();
-          if (!isGameOver2)
-            jump();
+        figma.ui.onmessage = (message) => {
+          if (message === "jump") {
+            if (!jumped2)
+              firstJump();
+            if (!isGameOver2)
+              jump();
+          }
+          if (message === "blur") {
+            setIframeFocused(false);
+          }
+          if (message === "focus") {
+            setIframeFocused(true);
+          }
         };
         figma.showUI(__html__, {
           width: 216,
@@ -110724,6 +110749,16 @@
       widgetNode.x = oldContainer.x;
       widgetNode.y = oldContainer.y;
       oldContainer.remove();
+    };
+    const medalImg = (score) => {
+      if (score >= 5 && score < 10)
+        return medalBronze_default;
+      if (score >= 10 && score < 20)
+        return medalSilver_default;
+      if (score >= 20 && score < 30)
+        return medalGold_default;
+      if (score >= 30)
+        return medalPlatinum_default;
     };
     return /* @__PURE__ */ figma.widget.h(Frame, {
       width: containerWidth,
@@ -110757,7 +110792,7 @@
         setLeaderboardShown(false);
         setGameStarted(true);
         setIsGameOver(false);
-        return initialization();
+        return playGame();
       }
     }), isGameOver && /* @__PURE__ */ figma.widget.h(Image, {
       name: "leaderboardButton",
@@ -110778,18 +110813,18 @@
       src: getReady_default
     }), gameStarted && !jumped && !isGameOver && /* @__PURE__ */ figma.widget.h(Text, {
       name: "hint",
-      x: 360,
+      x: 240,
       y: 466,
       fill: "#FAFAFA",
       verticalAlignText: "center",
-      horizontalAlignText: "right",
+      horizontalAlignText: "center",
       fontFamily: "Teko",
       fontSize: 32,
       fontWeight: 700,
       stroke: "#412937",
       strokeWidth: 3,
       strokeAlign: "OUTSIDE"
-    }, "Press Space to flap"), isGameOver && /* @__PURE__ */ figma.widget.h(Image, {
+    }, iframeFocused ? "Press Space to flap" : "Click Flap button"), isGameOver && /* @__PURE__ */ figma.widget.h(Image, {
       name: "gameover",
       x: 96,
       y: 118,
@@ -110803,7 +110838,14 @@
       width: 360,
       height: 185,
       fill: { type: "image", src: scoreboard_default }
-    }, /* @__PURE__ */ figma.widget.h(Text, {
+    }, currentScore > 5 && /* @__PURE__ */ figma.widget.h(Image, {
+      name: "medal",
+      x: 41,
+      y: 67,
+      width: 70,
+      height: 70,
+      src: medalImg(currentScore)
+    }), /* @__PURE__ */ figma.widget.h(Text, {
       name: "currentScore",
       x: 323,
       y: 48,
