@@ -1,0 +1,18 @@
+{
+  "name": "flippy-bird",
+  "version": "1.0.0",
+  "description": "Your Figma widget",
+  "main": "code.js",
+  "scripts": {
+    "dev": "esbuild code.tsx --bundle --loader:.png=dataurl --outfile=code.js --watch",
+    "build": "esbuild code.tsx --minify --bundle --loader:.png=dataurl --outfile=code.js"
+  },
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "@figma/plugin-typings": "*",
+    "@figma/widget-typings": "*",
+    "esbuild": "^0.13.12",
+    "typescript": "*"
+  }
+}
