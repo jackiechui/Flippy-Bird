@@ -1,5 +1,13 @@
 const { widget } = figma;
-const { useSyncedState, AutoLayout, Frame, Image, Text, useWidgetId } = widget;
+const {
+  useSyncedState,
+  AutoLayout,
+  Frame,
+  Image,
+  Text,
+  Rectangle,
+  useWidgetId,
+} = widget;
 
 import bg from './img/bg.png';
 import title from './img/title.png';
@@ -324,8 +332,8 @@ function Widget() {
       const gameOver = async () => {
         updateScores();
         setIsGameOver(true);
-        scoreText.remove();
         figma.ui.hide();
+        scoreText.remove();
         const array = await container.exportAsync({
           format: 'JPG',
           contentsOnly: false,
@@ -353,7 +361,18 @@ function Widget() {
 
       // clean up
       figma.on('close', async () => {
-        setIsGameOver(true);
+        if (jumpable) {
+          clearInterval(moveObstacleTimerId0);
+          clearInterval(moveObstacleTimerId1);
+          clearInterval(moveObstacleTimerId2);
+          clearInterval(animateTimerId);
+          clearInterval(groundTimerId);
+          clearInterval(updateTimerId);
+        }
+        figma.currentPage.appendChild(widgetNode);
+        widgetNode.x = container.x;
+        widgetNode.y = container.y;
+        container.remove();
       });
 
       // handle iframe event
@@ -386,14 +405,6 @@ function Widget() {
       widgetNode.y = 0;
     });
   };
-  const cleanup = () => {
-    const widgetNode = figma.getNodeById(widgetId) as WidgetNode;
-    const oldContainer = widgetNode.parent as FrameNode;
-    figma.currentPage.appendChild(widgetNode);
-    widgetNode.x = oldContainer.x;
-    widgetNode.y = oldContainer.y;
-    oldContainer.remove();
-  };
 
   const medalImg = (score) => {
     if (score >= 5 && score < 10) return medalBronze;
@@ -406,7 +417,7 @@ function Widget() {
     <Frame
       width={containerWidth}
       height={containerHeight}
-      fill={!gameStarted && { type: 'image', src: bgImage }}
+      fill={(!gameStarted || isGameOver) && { type: 'image', src: bgImage }}
     >
       {!gameStarted && (
         <Image
@@ -437,8 +448,6 @@ function Widget() {
           height={90}
           src={playButton}
           onClick={() => {
-            if (figma.getNodeById(widgetId).parent !== figma.currentPage)
-              cleanup();
             figma.currentPage.selection = [];
             setLeaderboardShown(false);
             setGameStarted(true);
@@ -489,159 +498,131 @@ function Widget() {
           {iframeFocused ? 'Press Space to flap' : 'Click Flap button'}
         </Text>
       )}
-      {isGameOver && (
-        <Image
-          name="gameover"
-          x={96}
-          y={118}
-          width={288}
-          height={63}
-          src={gameOverText}
+      <Image
+        name="gameover"
+        hidden={!isGameOver}
+        x={96}
+        y={118}
+        width={288}
+        height={63}
+        src={gameOverText}
+      />
+      <Frame
+        name="scoreboard"
+        hidden={!isGameOver}
+        x={60}
+        y={213}
+        width={360}
+        height={185}
+        fill={{ type: 'image', src: scoreboard }}
+      >
+        <Rectangle
+          name="medal"
+          hidden={currentScore < 5}
+          x={41}
+          y={67}
+          width={70}
+          height={70}
+          fill={
+            currentScore >= 5
+              ? { type: 'image', src: medalImg(currentScore) }
+              : undefined
+          }
         />
-      )}
-      {isGameOver && (
-        <Frame
-          name="scoreboard"
-          x={60}
-          y={213}
-          width={360}
-          height={185}
-          fill={{ type: 'image', src: scoreboard }}
+        <Text
+          name={'currentScore'}
+          x={323}
+          y={48}
+          fill={'#FFF'}
+          horizontalAlignText={'right'}
+          fontFamily={'Teko'}
+          fontSize={32}
+          fontWeight={700}
+          letterSpacing={5.1}
+          stroke={'#412937'}
+          strokeWidth={3}
+          strokeAlign={'OUTSIDE'}
         >
-          {currentScore > 5 && (
-            <Image
-              name="medal"
-              x={41}
-              y={67}
-              width={70}
-              height={70}
-              src={medalImg(currentScore)}
-            />
-          )}
-          <Text
-            name={'currentScore'}
-            x={323}
-            y={48}
-            fill={'#FFF'}
-            horizontalAlignText={'right'}
-            fontFamily={'Teko'}
-            fontSize={32}
-            fontWeight={700}
-            letterSpacing={5.1}
-            stroke={'#412937'}
-            strokeWidth={3}
-            strokeAlign={'OUTSIDE'}
-          >
-            {currentScore.toString()}
-          </Text>
-          <Text
-            name={'bestScore'}
-            x={323}
-            y={115}
-            fill={'#FFF'}
-            horizontalAlignText={'right'}
-            fontFamily={'Teko'}
-            fontSize={32}
-            fontWeight={700}
-            letterSpacing={5.1}
-            stroke={'#412937'}
-            strokeWidth={3}
-            strokeAlign={'OUTSIDE'}
-          >
-            {bestScore.toString()}
-          </Text>
-          {isNewBest && (
-            <Image
-              name="newTag"
-              x={214}
-              y={93}
-              width={51}
-              height={22}
-              src={newTag}
-            />
-          )}
-        </Frame>
-      )}
-      {leaderboardShown && (
-        <Frame
-          name="leaderboard"
-          x={60}
-          y={70}
-          width={360}
-          height={340}
-          fill={{ type: 'image', src: leaderboard }}
+          {currentScore.toString()}
+        </Text>
+        <Text
+          name={'bestScore'}
+          x={323}
+          y={115}
+          fill={'#FFF'}
+          horizontalAlignText={'right'}
+          fontFamily={'Teko'}
+          fontSize={32}
+          fontWeight={700}
+          letterSpacing={5.1}
+          stroke={'#412937'}
+          strokeWidth={3}
+          strokeAlign={'OUTSIDE'}
         >
-          <AutoLayout
-            name={'scores'}
-            x={32}
-            y={58}
-            overflow={'visible'}
-            direction={'vertical'}
-            spacing={4}
-            width={297}
-          >
-            {scores
-              .reduce((acc, current) => {
-                const x = acc.find(
-                  (item) =>
-                    item.name === current.name && item.score === current.score
-                );
-                if (!x) {
-                  return acc.concat([current]);
-                } else {
-                  return acc;
-                }
-              }, [])
-              .sort((a, b) => b.score - a.score)
-              .slice(0, 5)
-              .map((entry, index) => (
+          {bestScore.toString()}
+        </Text>
+        <Image
+          name="newTag"
+          hidden={!isNewBest}
+          x={214}
+          y={93}
+          width={51}
+          height={22}
+          src={newTag}
+        />
+      </Frame>
+      <Frame
+        name="leaderboard"
+        hidden={!leaderboardShown}
+        x={60}
+        y={70}
+        width={360}
+        height={340}
+        fill={{ type: 'image', src: leaderboard }}
+      >
+        <AutoLayout
+          name={'scores'}
+          x={32}
+          y={58}
+          overflow={'visible'}
+          direction={'vertical'}
+          spacing={4}
+          width={297}
+        >
+          {scores
+            .reduce((acc, current) => {
+              const x = acc.find(
+                (item) =>
+                  item.name === current.name && item.score === current.score
+              );
+              if (!x) {
+                return acc.concat([current]);
+              } else {
+                return acc;
+              }
+            }, [])
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 5)
+            .map((entry, index) => (
+              <AutoLayout
+                name={'row'}
+                key={entry.name + entry.score}
+                overflow={'visible'}
+                spacing={'auto'}
+                width={'fill-parent'}
+                verticalAlignItems={'center'}
+              >
                 <AutoLayout
-                  name={'row'}
-                  key={entry.name + entry.score}
+                  name={'rank & name'}
                   overflow={'visible'}
-                  spacing={'auto'}
-                  width={'fill-parent'}
-                  verticalAlignItems={'center'}
+                  spacing={24}
                 >
-                  <AutoLayout
-                    name={'rank & name'}
-                    overflow={'visible'}
-                    spacing={24}
-                  >
-                    <Text
-                      name={'rank'}
-                      fill={'#EDEDED'}
-                      width={12}
-                      verticalAlignText={'center'}
-                      horizontalAlignText={'center'}
-                      fontFamily={'Teko'}
-                      fontSize={34}
-                      fontWeight={700}
-                      stroke={'#412937'}
-                      strokeWidth={3}
-                      strokeAlign={'OUTSIDE'}
-                    >
-                      {index + 1}
-                    </Text>
-                    <Text
-                      name={'name'}
-                      fill={'#EDEDED'}
-                      verticalAlignText={'center'}
-                      fontFamily={'Teko'}
-                      fontSize={34}
-                      fontWeight={700}
-                      stroke={'#412937'}
-                      strokeWidth={3}
-                      strokeAlign={'OUTSIDE'}
-                    >
-                      {entry.name}
-                    </Text>
-                  </AutoLayout>
                   <Text
-                    name={'score'}
+                    name={'rank'}
                     fill={'#EDEDED'}
+                    width={12}
                     verticalAlignText={'center'}
-                    horizontalAlignText={'right'}
+                    horizontalAlignText={'center'}
                     fontFamily={'Teko'}
                     fontSize={34}
                     fontWeight={700}
@@ -649,33 +630,61 @@ function Widget() {
                     strokeWidth={3}
                     strokeAlign={'OUTSIDE'}
                   >
-                    {entry.score}
+                    {index + 1}
+                  </Text>
+                  <Text
+                    name={'name'}
+                    fill={'#EDEDED'}
+                    verticalAlignText={'center'}
+                    fontFamily={'Teko'}
+                    fontSize={34}
+                    fontWeight={700}
+                    stroke={'#412937'}
+                    strokeWidth={3}
+                    strokeAlign={'OUTSIDE'}
+                  >
+                    {entry.name}
                   </Text>
                 </AutoLayout>
-              ))}
-          </AutoLayout>
-        </Frame>
-      )}
-      {(!gameStarted || isGameOver) && (
-        <Image
-          name="muteButton"
-          x={432}
-          y={594}
-          width={32}
-          height={32}
-          src={soundOn ? speaker : mute}
-          onClick={async () =>
-            new Promise((resolve) => {
-              setSoundOn(!soundOn);
-              if (!soundOn) figma.showUI(__html__, { visible: false });
+                <Text
+                  name={'score'}
+                  fill={'#EDEDED'}
+                  verticalAlignText={'center'}
+                  horizontalAlignText={'right'}
+                  fontFamily={'Teko'}
+                  fontSize={34}
+                  fontWeight={700}
+                  stroke={'#412937'}
+                  strokeWidth={3}
+                  strokeAlign={'OUTSIDE'}
+                >
+                  {entry.score}
+                </Text>
+              </AutoLayout>
+            ))}
+        </AutoLayout>
+      </Frame>
+      <Image
+        name="muteButton"
+        hidden={gameStarted && !isGameOver}
+        x={432}
+        y={594}
+        width={32}
+        height={32}
+        src={soundOn ? speaker : mute}
+        onClick={async () =>
+          new Promise((resolve) => {
+            setSoundOn(!soundOn);
+            if (!soundOn) {
+              figma.showUI(__html__, { visible: false });
               figma.ui.postMessage('point');
               setTimeout(() => {
                 figma.closePlugin();
               }, 1200);
-            })
-          }
-        />
-      )}
+            } else figma.closePlugin();
+          })
+        }
+      />
     </Frame>
   );
 }
