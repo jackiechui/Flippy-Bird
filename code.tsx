@@ -315,7 +315,22 @@ function Widget() {
       scoreText.y = 76;
       scoreText.visible = false;
 
+      // flash
+      const flashScreen = figma.createRectangle();
+      flashScreen.resize(containerWidth, containerHeight);
+      flashScreen.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+      flashScreen.opacity = 0;
+      container.appendChild(flashScreen);
+
+      const flash = () => {
+        if (!flashScreen.removed) flashScreen.opacity = 0.5;
+        setTimeout(() => {
+          if (!flashScreen.removed) flashScreen.opacity = 0;
+        }, 100);
+      };
+
       const die = () => {
+        flash();
         if (soundOn) figma.ui.postMessage('die');
         clearInterval(moveObstacleTimerId0);
         clearInterval(moveObstacleTimerId1);
@@ -334,6 +349,7 @@ function Widget() {
         setIsGameOver(true);
         figma.ui.hide();
         scoreText.remove();
+        flashScreen.remove();
         const array = await container.exportAsync({
           format: 'JPG',
           contentsOnly: false,
@@ -667,6 +683,7 @@ function Widget() {
       <Image
         name="muteButton"
         hidden={gameStarted && !isGameOver}
+        opacity={0.25}
         x={432}
         y={594}
         width={32}

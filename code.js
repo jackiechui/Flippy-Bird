@@ -60,13 +60,13 @@
   var medalGold_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAehFoBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAF0SURBVHgB7Zm9rgFBFMfHjc6tRXO7+w7XjVJofTyBnsfhNXy0RCnhHXQaUdMi2eQv9nD2mBnDzNpfs9mPieOXvzOzI6csGfb/TjrPt3urnLLgSwVGXmlCjba6S6XDUJVj43WNB2dY/HaS0e2hqXQoFcax89GgHDuXjKfHMMzaGpXgjHOmwzdMzT7bqASMc6a129o1+8Xh7vXvSuGh+yawBb/a7KOfa2QY5jhTtveTuBT87uxSUAdmRmQ5/LXEu80Cro7wDPuWXQrNslGX+K3PouN6Wkt8juvDGG8i51Kwb2YBrcvIMMya9llpfBLB/eiygl2TFeyacPtwcXOMjrsfv6SjLuC0D8MkxWaSymOdiTXFf6ekfGIy30VH1Gn1TifhYrq/KdiXLNPsgnDbmm9ZptkFTvqwTZ+VYAumGXpVprnsAiPDMMf1YZcvA+LuZaNajF1/tmlqlMsuSP8OvK1xzij4nB14Dsm4hK5RSvoNU7J/QgXOKNnIVcoVhHcAAAAASUVORK5CYII=";
 
   // img/medalPlatinum.png
-  var medalPlatinum_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAehFoBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGrSURBVHgB7ZlBasMwEEXlYigEDO2xCj1B6Qm6jUU3xYvQTbGz7QlKN90WepgeogVDIBBIiJwJzkQjWVIUS47fxiSynPHL+AvbCXMkn07XJvtX83nCHLhikZEyQ7DRsqqYIQfzTY0Pz7DO6HKxYCZI/hEj49EZJs8GzLoa1XE9mRx85nkutpTp+A1js6c2qgOMU6bJi65LoS9FIf3+dTbrNG7zu8NfOLaAueL3ixhvtuX6TzrOd/NVpin2Bffdu5hWOom6oJfjb4m+zQJUHfEZDq13MbiXrVICDsJz9X48uVXOt5GzLzg0swCuy8owLJv3qTxHv1dNzn7elfID7Obb5HB0F91YsG/Ggn3jmMPqIH744cr5Tjlc17XYZlnGQgLqApxy+P3xRjr+9PEvttRDFpdFKm3dM4m12ibMffJWNosP1GlluCs+lvujgkPpZdy7QLyxFlov494FnHKYETns82aALBj30Ll6mupdwMowmPORszqOCsa9/Myb5bV95qe0jY1SvQs45XAft1Xa9wv4CTwYB0xtU0aBy3kCT6EzrsPUKGb4hjHjm1ANG+Ox2PaCjC04AAAAAElFTkSuQmCC";
+  var medalPlatinum_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAehFoBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGxSURBVHgB7ZkxTsMwFIZdVAmpUjgCCwdg5wjsZkLqysDWRAxsFQwo6cbAhFSJiewcgYGNA7BwBCJVggWE4VXpq58d2zWxQ77Fah2rL1//PCvJgDmSTiafJscXs9mAObDFImPIDMFG86JghqysNzXePcM6o++LBTNB8o8YGY/OMHk2YNbVqI7t0Wjlc5amYqRMx28Ym920UR1gnDJNXnRNCj0ej6Xf383njeZtfrf7G8c3YO7240k5X+7uSOf577zKNMWy4Lazi6l1J1EXZDn+SLRtFqDqiM9waNnF4CxbdYmyLMXIOVcex1/flOtt5CwLDs0sgOuyMgxmT/fkffT65afPPp7cK9fb9OHoLrq+YN/0BfvGax8+uDlSrnfqw1VViTFJEhYSUBfg1Icfzvel84eXz2IEkxiXTWpYu2cSe/XFdMpC4irPxQh1Whluio/tfq3gULKMswvE29ZCyzLOLuClD7v0WR1kwThDf5VpKruAlWEw56PP6lgrGGf5LMvEh/qZb9I2NkplF3Dqw23cVmnfL+An8GAcMLVNGQX+zxN4Cp1xHaZGMd03jOnfhGr4Aryu246fqHCSAAAAAElFTkSuQmCC";
 
   // img/speaker.png
-  var speaker_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACLSURBVHgB7ZbBDYAgDEWrcRhH8MjoHB3BcQwHEtMApWLSSv47wj/0l9KWCABjFo047EconcfrjC197T6xkjFdGeDOs6Meh5LOPANb67LmXNJLuie+auCrKtec+6wBzRuOYp4BBIAAir9A2wFH8D0NpUzwzqbtjAnf05A7k6bdm1r5x0aUmXInBMCcG8LoVnCvKSFwAAAAAElFTkSuQmCC";
+  var speaker_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB3SURBVHgB7ZbBCsAwCEPd2P//sjvtUpCYMogbecdqi0qqRhgj5giOJN9JYI8zxHQrkMU9mCHyk1fgAvYqc+Tf1tY4Dbyl8vb5WA2w/WEbeQUcgAOofgHbAbcZPw1RJdbOxnbG+dNwzQxNO1orn9mIHv63Exoj5wYDgxQyF3qMrQAAAABJRU5ErkJggg==";
 
   // img/mute.png
-  var mute_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACKSURBVHgB7ZbBDYAgDEWrcRhH8MjoHB3BcTw1MYQCrSQtTd9NKYf/KKQAQaDMxilO55Vq//NzZxCygzLHSFGZHBNTRjjYNkAln4ktA3+7HPdT9bV1mz0gPevydlDfX9Z4B7iMJEd8Gli/B6QvIJW0ZULdQHMe6JkY6fIetg0gvXnAvwHE5UwYBOq85EZZl4Z4X68AAAAASUVORK5CYII=";
+  var mute_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB5SURBVHgB7dbBDoAgDAPQYfz/X8bTOGCaOiTZWPZuKjFpnQSRUpw1semb3jNc4uz+uG5O3sB9s/ANoOTbhGvg75R3sv71POwMrH7r+e9A18Mx+4AVTa7SNnD+DKzugCgpbMK9AZaMNUGnnAnfgGLngfwNqHxnwlLcPRxIFDp+mLiwAAAAAElFTkSuQmCC";
 
   // images.js
   var bgArray = [
@@ -110735,7 +110735,21 @@
         scoreText.x = 225;
         scoreText.y = 76;
         scoreText.visible = false;
+        const flashScreen = figma.createRectangle();
+        flashScreen.resize(containerWidth, containerHeight);
+        flashScreen.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+        flashScreen.opacity = 0;
+        container.appendChild(flashScreen);
+        const flash = () => {
+          if (!flashScreen.removed)
+            flashScreen.opacity = 0.5;
+          setTimeout(() => {
+            if (!flashScreen.removed)
+              flashScreen.opacity = 0;
+          }, 100);
+        };
         const die = () => {
+          flash();
           if (soundOn)
             figma.ui.postMessage("die");
           clearInterval(moveObstacleTimerId0);
@@ -110754,6 +110768,7 @@
           setIsGameOver(true);
           figma.ui.hide();
           scoreText.remove();
+          flashScreen.remove();
           const array = yield container.exportAsync({
             format: "JPG",
             contentsOnly: false
@@ -111026,6 +111041,7 @@
     }, entry.score))))), /* @__PURE__ */ figma.widget.h(Image, {
       name: "muteButton",
       hidden: gameStarted && !isGameOver,
+      opacity: 0.25,
       x: 432,
       y: 594,
       width: 32,
