@@ -377,6 +377,7 @@ function Widget() {
 
       // clean up
       figma.on('close', async () => {
+        setIsGameOver(true);
         if (jumpable) {
           clearInterval(moveObstacleTimerId0);
           clearInterval(moveObstacleTimerId1);
