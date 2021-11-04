@@ -110504,7 +110504,7 @@
     const playGame = () => {
       return new Promise((resolve) => __async(this, null, function* () {
         let jumped2 = false;
-        let isGameOver2 = false;
+        let jumpable = true;
         let speed = 0;
         let score = 0;
         const birdLeft = 216;
@@ -110650,8 +110650,8 @@
             } else
               bird.y = containerHeight - 80 - 40;
             if (bird.y + birdHeight > containerHeight - 72) {
-              if (!isGameOver2)
-                die();
+              clearInterval(updateTimerId);
+              die();
               gameOver();
             }
           }
@@ -110701,7 +110701,7 @@
               imageHash: flippyDeadHash
             }
           ];
-          isGameOver2 = true;
+          jumpable = false;
         };
         const updateScores = () => {
           setCurrentScore(score);
@@ -110722,7 +110722,6 @@
         };
         const gameOver = () => {
           updateScores();
-          clearInterval(updateTimerId);
           figma.ui.hide();
           setTimeout(() => {
             figma.closePlugin();
@@ -110739,7 +110738,7 @@
             case "jump":
               if (!jumped2)
                 firstJump();
-              if (!isGameOver2)
+              if (jumpable)
                 jump();
               break;
             case "blur":
