@@ -41,6 +41,7 @@ const distanceBeforeObstacle = 1000;
 
 function Widget() {
   const widgetId = useWidgetId();
+  const [bgImage, setBgImage] = useSyncedState('bgImage', bg);
   const [gameStarted, setGameStarted] = useSyncedState('gameStarted', false);
   const [jumped, setJumped] = useSyncedState('jump', false);
   const [isGameOver, setIsGameOver] = useSyncedState('isGameOver', false);
@@ -226,7 +227,7 @@ function Widget() {
           // hits ground
           if (bird.y + birdHeight > containerHeight - 72) {
             clearInterval(updateTimerId);
-            die();
+            if (jumpable) die();
             gameOver();
           }
         }
@@ -284,6 +285,18 @@ function Widget() {
         jumpable = false;
       };
 
+      const gameOver = async () => {
+        updateScores();
+        setIsGameOver(true);
+        scoreText.remove();
+        figma.ui.hide();
+        const array = await container.exportAsync({
+          format: 'JPG',
+          contentsOnly: false,
+        });
+        figma.ui.postMessage(array);
+      };
+
       const updateScores = () => {
         setCurrentScore(score);
         if (score > bestScore) {
@@ -302,21 +315,8 @@ function Widget() {
         setScores(oldScores);
       };
 
-      const gameOver = () => {
-        updateScores();
-        figma.ui.hide();
-        setTimeout(() => {
-          figma.closePlugin();
-        }, 500);
-      };
-
       // clean up
-      figma.on('close', () => {
-        updateScores();
-        scoreText.remove();
-        setIsGameOver(true);
-        setJumped(false);
-      });
+      figma.on('close', async () => {});
 
       // handle iframe event
       figma.ui.onmessage = (message) => {
@@ -331,6 +331,11 @@ function Widget() {
           case 'focus':
             if (!jumped) setIframeFocused(true);
             break;
+          default:
+            setBgImage(message);
+            setTimeout(() => {
+              figma.closePlugin();
+            }, 500);
         }
       };
       figma.showUI(__html__, {
@@ -363,7 +368,7 @@ function Widget() {
     <Frame
       width={containerWidth}
       height={containerHeight}
-      fill={!gameStarted && { type: 'image', src: bg }}
+      fill={!gameStarted && { type: 'image', src: bgImage }}
     >
       {!gameStarted && (
         <Image
@@ -400,6 +405,7 @@ function Widget() {
             setLeaderboardShown(false);
             setGameStarted(true);
             setIsGameOver(false);
+            setJumped(false);
             return playGame();
           }}
         />

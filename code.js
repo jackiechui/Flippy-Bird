@@ -110491,6 +110491,7 @@
   var distanceBeforeObstacle = 1e3;
   function Widget() {
     const widgetId = useWidgetId();
+    const [bgImage, setBgImage] = useSyncedState("bgImage", bg_default);
     const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
     const [jumped, setJumped] = useSyncedState("jump", false);
     const [isGameOver, setIsGameOver] = useSyncedState("isGameOver", false);
@@ -110651,7 +110652,8 @@
               bird.y = containerHeight - 80 - 40;
             if (bird.y + birdHeight > containerHeight - 72) {
               clearInterval(updateTimerId);
-              die();
+              if (jumpable)
+                die();
               gameOver();
             }
           }
@@ -110703,6 +110705,17 @@
           ];
           jumpable = false;
         };
+        const gameOver = () => __async(this, null, function* () {
+          updateScores();
+          setIsGameOver(true);
+          scoreText.remove();
+          figma.ui.hide();
+          const array = yield container.exportAsync({
+            format: "JPG",
+            contentsOnly: false
+          });
+          figma.ui.postMessage(array);
+        });
         const updateScores = () => {
           setCurrentScore(score);
           if (score > bestScore) {
@@ -110720,19 +110733,8 @@
           });
           setScores(oldScores);
         };
-        const gameOver = () => {
-          updateScores();
-          figma.ui.hide();
-          setTimeout(() => {
-            figma.closePlugin();
-          }, 500);
-        };
-        figma.on("close", () => {
-          updateScores();
-          scoreText.remove();
-          setIsGameOver(true);
-          setJumped(false);
-        });
+        figma.on("close", () => __async(this, null, function* () {
+        }));
         figma.ui.onmessage = (message) => {
           switch (message) {
             case "jump":
@@ -110749,6 +110751,11 @@
               if (!jumped2)
                 setIframeFocused(true);
               break;
+            default:
+              setBgImage(message);
+              setTimeout(() => {
+                figma.closePlugin();
+              }, 500);
           }
         };
         figma.showUI(__html__, {
@@ -110783,7 +110790,7 @@
     return /* @__PURE__ */ figma.widget.h(Frame, {
       width: containerWidth,
       height: containerHeight,
-      fill: !gameStarted && { type: "image", src: bg_default }
+      fill: !gameStarted && { type: "image", src: bgImage }
     }, !gameStarted && /* @__PURE__ */ figma.widget.h(Image, {
       name: "title",
       x: 116,
@@ -110812,6 +110819,7 @@
         setLeaderboardShown(false);
         setGameStarted(true);
         setIsGameOver(false);
+        setJumped(false);
         return playGame();
       }
     }), isGameOver && /* @__PURE__ */ figma.widget.h(Image, {
