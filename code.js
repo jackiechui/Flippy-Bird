@@ -110601,39 +110601,78 @@
           }
         };
         const groundTimerId = setInterval(groundMove, 20);
-        const bird = figma.createRectangle();
+        const bird = figma.createFrame();
+        bird.fills = [];
         bird.resize(birdWidth, birdHeight);
         bird.x = birdLeft;
         bird.y = birdTop;
-        bird.fills = [
+        const birdFrame1 = figma.createRectangle();
+        const birdFrame2 = figma.createRectangle();
+        const birdFrame3 = figma.createRectangle();
+        const birdDead = figma.createRectangle();
+        birdFrame1.resize(birdWidth, birdHeight);
+        birdFrame2.resize(birdWidth, birdHeight);
+        birdFrame3.resize(birdWidth, birdHeight);
+        birdDead.resize(birdWidth, birdHeight);
+        birdFrame1.fills = [
           {
             type: "IMAGE",
             scaleMode: "FILL",
             imageHash: flippyFrame1Hash
           }
         ];
+        birdFrame2.fills = [
+          {
+            type: "IMAGE",
+            scaleMode: "FILL",
+            imageHash: flippyFrame2Hash
+          }
+        ];
+        birdFrame3.fills = [
+          {
+            type: "IMAGE",
+            scaleMode: "FILL",
+            imageHash: flippyFrame3Hash
+          }
+        ];
+        birdDead.fills = [
+          {
+            type: "IMAGE",
+            scaleMode: "FILL",
+            imageHash: flippyDeadHash
+          }
+        ];
+        bird.appendChild(birdFrame1);
+        bird.appendChild(birdFrame2);
+        bird.appendChild(birdFrame3);
+        bird.appendChild(birdDead);
+        birdDead.visible = false;
         container.appendChild(bird);
         let animationFrame = 1;
-        const animationFrames = [
-          0,
-          flippyFrame1Hash,
-          flippyFrame2Hash,
-          flippyFrame3Hash
-        ];
         const animate = () => {
-          bird.fills = [
-            {
-              type: "IMAGE",
-              scaleMode: "FILL",
-              imageHash: animationFrames[animationFrame]
-            }
-          ];
+          switch (animationFrame) {
+            case 1:
+              birdFrame1.visible = true;
+              birdFrame2.visible = false;
+              birdFrame3.visible = false;
+              break;
+            case 2:
+              birdFrame1.visible = false;
+              birdFrame2.visible = true;
+              birdFrame3.visible = false;
+              break;
+            case 3:
+              birdFrame1.visible = false;
+              birdFrame2.visible = false;
+              birdFrame3.visible = true;
+              break;
+          }
           if (animationFrame < 3)
             animationFrame++;
           else
             animationFrame = 1;
         };
-        const animateTimerId = setInterval(animate, 150);
+        const animateTimerId = setInterval(animate, 100);
         const update = () => {
           if (jumped2) {
             speed += gravity;
@@ -110696,13 +110735,10 @@
           clearInterval(moveObstacleTimerId2);
           clearInterval(animateTimerId);
           clearInterval(groundTimerId);
-          bird.fills = [
-            {
-              type: "IMAGE",
-              scaleMode: "FILL",
-              imageHash: flippyDeadHash
-            }
-          ];
+          birdDead.visible = true;
+          birdFrame1.visible = false;
+          birdFrame2.visible = false;
+          birdFrame3.visible = false;
           jumpable = false;
         };
         const gameOver = () => __async(this, null, function* () {
@@ -110734,6 +110770,7 @@
           setScores(oldScores);
         };
         figma.on("close", () => __async(this, null, function* () {
+          setIsGameOver(true);
         }));
         figma.ui.onmessage = (message) => {
           switch (message) {
