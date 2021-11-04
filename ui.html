@@ -48,7 +48,6 @@ window.addEventListener('blur', () => {
 	parent.postMessage({ pluginMessage: 'blur' }, '*');
 });
 window.addEventListener("message", ({ data }) => {
-  console.log(data.pluginMessage);
   switch(data.pluginMessage) {
     case 'swoosh':
       swooshSound.play();

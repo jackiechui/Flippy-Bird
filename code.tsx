@@ -320,15 +320,17 @@ function Widget() {
 
       // handle iframe event
       figma.ui.onmessage = (message) => {
-        if (message === 'jump') {
-          if (!jumped) firstJump();
-          if (!isGameOver) jump();
-        }
-        if (message === 'blur') {
-          setIframeFocused(false);
-        }
-        if (message === 'focus') {
-          setIframeFocused(true);
+        switch (message) {
+          case 'jump':
+            if (!jumped) firstJump();
+            if (!isGameOver) jump();
+            break;
+          case 'blur':
+            if (!jumped) setIframeFocused(false);
+            break;
+          case 'focus':
+            if (!jumped) setIframeFocused(true);
+            break;
         }
       };
       figma.showUI(__html__, {

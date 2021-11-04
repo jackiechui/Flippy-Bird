@@ -110735,17 +110735,21 @@
           setJumped(false);
         });
         figma.ui.onmessage = (message) => {
-          if (message === "jump") {
-            if (!jumped2)
-              firstJump();
-            if (!isGameOver2)
-              jump();
-          }
-          if (message === "blur") {
-            setIframeFocused(false);
-          }
-          if (message === "focus") {
-            setIframeFocused(true);
+          switch (message) {
+            case "jump":
+              if (!jumped2)
+                firstJump();
+              if (!isGameOver2)
+                jump();
+              break;
+            case "blur":
+              if (!jumped2)
+                setIframeFocused(false);
+              break;
+            case "focus":
+              if (!jumped2)
+                setIframeFocused(true);
+              break;
           }
         };
         figma.showUI(__html__, {
