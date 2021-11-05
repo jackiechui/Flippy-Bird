@@ -83,6 +83,7 @@ function Widget() {
       const container = figma.createFrame();
       container.clipsContent = true;
       container.resize(containerWidth, containerHeight);
+      container.cornerRadius = 12;
       container.fills = [
         {
           type: 'IMAGE',
@@ -380,6 +381,8 @@ function Widget() {
       figma.ui.onmessage = (message) => {
         switch (message) {
           case 'jump':
+            if (figma.currentPage.selection.length > 0)
+              figma.currentPage.selection = [];
             if (!jumped) firstJump();
             if (jumpable) jump();
             break;
@@ -439,6 +442,7 @@ function Widget() {
     <Frame
       width={containerWidth}
       height={containerHeight}
+      cornerRadius={12}
       fill={(!gameStarted || isGameOver) && { type: 'image', src: bgImage }}
     >
       {!gameStarted && (
