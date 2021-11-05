@@ -74,6 +74,9 @@ window.addEventListener("message", ({ data }) => {
     case 'fall':
       fallSound.play();
       break;
+    case 'selectionChanged':
+      jumpBtn.focus();
+      break;
     default:
       parent.postMessage({ pluginMessage: JPGFromBuffer(message) }, '*');
   }

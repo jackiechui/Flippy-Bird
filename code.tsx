@@ -37,6 +37,7 @@ import {
   flippyDeadHash,
 } from './images';
 
+// game parameters
 const containerWidth = 480;
 const containerHeight = 640;
 const gravity = 0.7;
@@ -68,7 +69,7 @@ function Widget() {
   const [soundOn, setSoundOn] = useSyncedState('soundOn', true);
 
   const playGame = () => {
-    return new Promise(async (resolve) => {
+    return new Promise(async () => {
       let jumped = false;
       let jumpable = true;
       let speed = 0;
@@ -92,7 +93,7 @@ function Widget() {
       container.x = widgetNode.x;
       container.y = widgetNode.y;
 
-      // generate obstacle
+      // generate obstacles
       const generateObstacle = (obstacleIndex) => {
         const obstacleWidth = 88;
         const bottomObstacle = figma.createRectangle();
@@ -145,7 +146,7 @@ function Widget() {
               addedScore = true;
               scoreText.characters = score.toString();
             }
-            // off screen
+            // reset obstacle position off screen
             if (bottomObstacle.x === -obstacleWidth) {
               bottomObstacle.x = containerWidth + 296;
               topObstacle.x = containerWidth + 296;
@@ -182,7 +183,7 @@ function Widget() {
       };
       const groundTimerId = setInterval(groundMove, 20);
 
-      // create bird
+      // create bird (Flippy)
       const bird = figma.createFrame();
       bird.fills = [];
       bird.resize(birdWidth, birdHeight);
@@ -231,7 +232,7 @@ function Widget() {
       birdDead.visible = false;
       container.appendChild(bird);
 
-      // animation
+      // flap animation
       let animationFrame = 1;
       const animate = () => {
         switch (animationFrame) {
@@ -256,8 +257,8 @@ function Widget() {
       };
       const animateTimerId = setInterval(animate, 100);
 
-      // run game
-      const update = () => {
+      // move Flippy
+      const moveBird = () => {
         if (jumped) {
           speed += gravity;
           birdTop += speed;
@@ -273,14 +274,14 @@ function Widget() {
 
           // hits ground
           if (bird.y + birdHeight > containerHeight - 72) {
-            clearInterval(updateTimerId);
+            clearInterval(moveBirdTimerId);
             if (jumpable) die();
             gameOver();
           }
         }
       };
 
-      const updateTimerId = setInterval(update, 20);
+      const moveBirdTimerId = setInterval(moveBird, 20);
 
       // jump
       const jump = () => {
@@ -375,24 +376,7 @@ function Widget() {
         setScores(oldScores);
       };
 
-      // clean up
-      figma.on('close', async () => {
-        setIsGameOver(true);
-        if (jumpable) {
-          clearInterval(moveObstacleTimerId0);
-          clearInterval(moveObstacleTimerId1);
-          clearInterval(moveObstacleTimerId2);
-          clearInterval(animateTimerId);
-          clearInterval(groundTimerId);
-          clearInterval(updateTimerId);
-        }
-        figma.currentPage.appendChild(widgetNode);
-        widgetNode.x = container.x;
-        widgetNode.y = container.y;
-        container.remove();
-      });
-
-      // handle iframe event
+      // handle iframe events
       figma.ui.onmessage = (message) => {
         switch (message) {
           case 'jump':
@@ -420,6 +404,27 @@ function Widget() {
       container.appendChild(widgetNode);
       widgetNode.x = 0;
       widgetNode.y = 0;
+      // when selection changes, try to move the focus back into the iframe for keyboard inputs
+      figma.on('selectionchange', () => {
+        figma.ui.postMessage('selectionChanged');
+      });
+
+      // clean up
+      figma.on('close', async () => {
+        setIsGameOver(true);
+        if (jumpable) {
+          clearInterval(moveObstacleTimerId0);
+          clearInterval(moveObstacleTimerId1);
+          clearInterval(moveObstacleTimerId2);
+          clearInterval(animateTimerId);
+          clearInterval(groundTimerId);
+          clearInterval(moveBirdTimerId);
+        }
+        figma.currentPage.appendChild(widgetNode);
+        widgetNode.x = container.x;
+        widgetNode.y = container.y;
+        container.remove();
+      });
     });
   };
 
