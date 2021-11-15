@@ -45,7 +45,7 @@ const jumpAmount = 10;
 const gap = 156;
 const birdWidth = 45;
 const birdHeight = 63;
-const hitBoxOffset = 3;
+const hitBoxOffset = 4;
 const distanceBeforeObstacle = 1000;
 
 function Widget() {
@@ -658,19 +658,40 @@ function Widget() {
                   >
                     {index + 1}
                   </Text>
-                  <Text
-                    name={'name'}
-                    fill={'#EDEDED'}
-                    verticalAlignText={'center'}
-                    fontFamily={'Teko'}
-                    fontSize={34}
-                    fontWeight={700}
-                    stroke={'#412937'}
-                    strokeWidth={3}
-                    strokeAlign={'OUTSIDE'}
+                  <AutoLayout
+                    name={'name container'}
+                    overflow={'visible'}
+                    spacing={10}
+                    verticalAlignItems={'center'}
                   >
-                    {entry.name}
-                  </Text>
+                    {entry.score >= 5 && (
+                      <AutoLayout
+                        name={'medal container'}
+                        overflow={'visible'}
+                        padding={{ top: 0, right: 0, bottom: 5, left: 0 }}
+                      >
+                        <Image
+                          name={'medal'}
+                          width={28}
+                          height={28}
+                          src={medalImg(entry.score)}
+                        />
+                      </AutoLayout>
+                    )}
+                    <Text
+                      name={'name'}
+                      fill={'#EDEDED'}
+                      verticalAlignText={'center'}
+                      fontFamily={'Teko'}
+                      fontSize={34}
+                      fontWeight={700}
+                      stroke={'#412937'}
+                      strokeWidth={3}
+                      strokeAlign={'OUTSIDE'}
+                    >
+                      {entry.name}
+                    </Text>
+                  </AutoLayout>
                 </AutoLayout>
                 <Text
                   name={'score'}
