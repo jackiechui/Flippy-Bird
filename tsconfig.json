@@ -1,1 +1,9 @@
-{"compilerOptions":{"jsx":"react","jsxFactory":"figma.widget.h","target":"es6","lib":["es6"],"typeRoots":["./node_modules/@types","./node_modules/@figma"]}}
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "figma.widget.h",
+    "target": "es6",
+    "lib": ["es6"],
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
+  }
+}

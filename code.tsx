@@ -443,7 +443,7 @@ function Widget() {
       width={containerWidth}
       height={containerHeight}
       cornerRadius={12}
-      fill={(!gameStarted || isGameOver) && { type: 'image', src: bgImage }}
+      fill={!gameStarted || isGameOver ? { type: 'image', src: bgImage } : []}
     >
       {!gameStarted && (
         <Image
@@ -509,7 +509,7 @@ function Widget() {
       {gameStarted && !jumped && !isGameOver && (
         <Text
           name={'hint'}
-          x={240}
+          x={120}
           y={466}
           fill={'#FAFAFA'}
           verticalAlignText={'center'}
@@ -519,7 +519,7 @@ function Widget() {
           fontWeight={700}
           stroke={'#412937'}
           strokeWidth={3}
-          strokeAlign={'OUTSIDE'}
+          strokeAlign={'outside'}
         >
           {iframeFocused ? 'Press Space to flap' : 'Click Flap button'}
         </Text>
@@ -567,7 +567,7 @@ function Widget() {
           letterSpacing={5.1}
           stroke={'#412937'}
           strokeWidth={3}
-          strokeAlign={'OUTSIDE'}
+          strokeAlign={'outside'}
         >
           {currentScore.toString()}
         </Text>
@@ -583,7 +583,7 @@ function Widget() {
           letterSpacing={5.1}
           stroke={'#412937'}
           strokeWidth={3}
-          strokeAlign={'OUTSIDE'}
+          strokeAlign={'outside'}
         >
           {bestScore.toString()}
         </Text>
@@ -654,7 +654,7 @@ function Widget() {
                     fontWeight={700}
                     stroke={'#412937'}
                     strokeWidth={3}
-                    strokeAlign={'OUTSIDE'}
+                    strokeAlign={'outside'}
                   >
                     {index + 1}
                   </Text>
@@ -687,7 +687,7 @@ function Widget() {
                       fontWeight={700}
                       stroke={'#412937'}
                       strokeWidth={3}
-                      strokeAlign={'OUTSIDE'}
+                      strokeAlign={'outside'}
                     >
                       {entry.name}
                     </Text>
@@ -703,7 +703,7 @@ function Widget() {
                   fontWeight={700}
                   stroke={'#412937'}
                   strokeWidth={3}
-                  strokeAlign={'OUTSIDE'}
+                  strokeAlign={'outside'}
                 >
                   {entry.score}
                 </Text>
